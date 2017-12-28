@@ -15,7 +15,7 @@ posix-sudo-shim is a minimal drop-in replacement for [sudo](https://www.sudo.ws/
 # INSTALL
 
 ```console
-$ git clone https://github.com/mcandre/posix-sudo-shim.git && su root -c 'ln -s "$(pwd)/posix-sudo-shim/lib/sudo" /bin/sudo'
+$ git clone https://github.com/mcandre/posix-sudo-shim.git && su root -c 'cp "$(pwd)/posix-sudo-shim/lib/sudo" /bin/sudo'
 ```
 
 # UNINSTALL
