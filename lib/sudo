@@ -1,0 +1,38 @@
+#!/bin/sh
+
+usage() {
+  echo "$0 [<OPTION>] <command>"
+  echo "Options:"
+  echo "-u <user>\tSpecify a delegate username"
+  echo "-h\tShow usage information"
+  echo "-V\tShow version information"
+}
+
+VERSION='0.0.1'
+USER='root'
+
+case "$1" in
+  -u)
+    shift
+
+    if [ -z "$1" ]; then
+      usage
+      exit 1
+    fi
+
+    USER="$1"
+    shift
+    ;;
+  -h)
+    usage
+    exit
+    ;;
+  -V)
+    echo "$VERSION"
+    exit
+    ;;
+esac
+
+COMMAND="$*"
+
+exec su "$USER" -c "$COMMAND"
