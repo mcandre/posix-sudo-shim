@@ -3,35 +3,43 @@
 usage() {
   echo "$0 [<OPTION>] <command>"
   echo "Options:"
-  echo "-u <user>\tSpecify a delegate username"
-  echo "-h\tShow usage information"
-  echo "-V\tShow version information"
+  echo "-u <user> Specify a delegate username"
+  echo "-E Preserve environment variables (always on in this shim)"
+  echo "-h Show usage information"
+  echo "-V Show version information"
 }
 
 VERSION='0.0.1'
 USER='root'
 
-case "$1" in
-  -u)
-    shift
+while [ 0 ]; do
+  case "$1" in
+    -u)
+      shift
 
-    if [ -z "$1" ]; then
+      if [ -z "$1" ]; then
+        usage
+        exit 1
+      fi
+
+      USER="$1"
+      shift
+      ;;
+    -E)
+      ;;
+    -h)
       usage
-      exit 1
-    fi
-
-    USER="$1"
-    shift
-    ;;
-  -h)
-    usage
-    exit
-    ;;
-  -V)
-    echo "$VERSION"
-    exit
-    ;;
-esac
+      exit
+      ;;
+    -V)
+      echo "$VERSION"
+      exit
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
 
 COMMAND="$*"
 
