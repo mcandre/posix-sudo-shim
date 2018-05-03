@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -i
 
 usage() {
     echo "$0 [<OPTION>] <command>"
@@ -11,8 +11,14 @@ usage() {
 }
 
 VERSION='0.0.1'
-USER='root'
 PASSWORD=''
+USER='root'
+
+uname -a | grep Haiku >/dev/null
+
+if [ "$?" -eq 0 ]; then
+    USER='user'
+fi
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -51,7 +57,7 @@ SU='su'
 SUBCOMMAND="$*"
 LOG_SHUNT=''
 
-grep SmartOS /etc/release >/dev/null
+[ -r "/etc/release" ] && grep SmartOS /etc/release >/dev/null
 
 if [ "$?" -eq 0 ]; then
     PASSWORD_SHUNT="print \".\\n$PASSWORD\\n\""
