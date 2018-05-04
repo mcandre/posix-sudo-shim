@@ -14,7 +14,13 @@ posix-sudo-shim is a minimal drop-in replacement for [sudo](https://www.sudo.ws/
 
 # NOTES
 
-Some commands may break with `sudo`..., such as in Haiku nightly, where the underlying `su` may be broken.
+Some commands may break with `sudo`..., such as in Haiku nightly, where the underlying `su` may be broken. For such primarily single-user environments, a more reliable `sudo` shim would look like:
+
+```sh
+#!/bin/sh
+# Assume root-level privileges and avoid PTY's
+"$@"
+```
 
 # INSTALL
 
