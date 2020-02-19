@@ -14,9 +14,7 @@ VERSION='0.0.1'
 PASSWORD=''
 USER='root'
 
-uname -a | grep Haiku >/dev/null
-
-if [ "$?" -eq 0 ]; then
+if uname -a | grep Haiku >/dev/null; then
     USER='user'
 fi
 
@@ -34,7 +32,7 @@ while [ "$#" -gt 0 ]; do
     -E) ;;
 
     -S)
-        read PASSWORD
+        read -r PASSWORD
         ;;
     -h)
         usage
@@ -57,9 +55,7 @@ SU='su'
 SUBCOMMAND="$*"
 LOG_SHUNT=''
 
-[ -r "/etc/release" ] && grep SmartOS /etc/release >/dev/null
-
-if [ "$?" -eq 0 ]; then
+if [ -r "/etc/release" ] && grep SmartOS /etc/release >/dev/null; then
     PASSWORD_SHUNT="print \".\\n$PASSWORD\\n\""
     SU='/usr/lib/embedded_su'
     LOG_SHUNT='tail -n+6 -f'
@@ -67,11 +63,11 @@ fi
 
 COMMAND="$COMMAND $SU $USER -c \"$SUBCOMMAND\""
 
-if [ ! -z "$PASSWORD_SHUNT" ]; then
+if [ -n "$PASSWORD_SHUNT" ]; then
     COMMAND="$PASSWORD_SHUNT | $COMMAND"
 fi
 
-if [ ! -z "$LOG_SHUNT" ]; then
+if [ -n "$LOG_SHUNT" ]; then
     COMMAND="$COMMAND | $LOG_SHUNT"
 fi
 
